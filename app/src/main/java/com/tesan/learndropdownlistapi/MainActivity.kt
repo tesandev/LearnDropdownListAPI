@@ -1,12 +1,13 @@
 package com.tesan.learndropdownlistapi
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.tesan.learndropdownlistapi.model.ResponseKecamatan
 import com.tesan.learndropdownlistapi.model.ResponseKelurahan
 import com.tesan.learndropdownlistapi.model.ResponseKota
@@ -40,6 +41,19 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(R.layout.activity_main)
 
         showProvinsi()
+
+        btn_setProvinsi.setOnClickListener {
+            val id_prov:String = edt_idProv.text.toString()
+
+            val idx = getIndex(id_prov.toInt())
+            Log.e("select","index :"+idx)
+            spProvinsi.setSelection(idx.toInt())
+        }
+    }
+
+    private fun getIndex(id_prov: Int):String{
+        val idprov = listIdprovinsi.indexOf(id_prov)
+        return idprov.toString()
     }
 
     private fun showProvinsi() {
@@ -122,6 +136,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         p0?.getItemAtPosition(p2)
         if(p0?.selectedItem == spProvinsi.selectedItem){
+            Log.e("select",listIdprovinsi[p2].toString())
             showKota(listIdprovinsi[p2])
         }else if(p0?.selectedItem == spKota.selectedItem){
             showKecamatan(listIdkota[p2])
